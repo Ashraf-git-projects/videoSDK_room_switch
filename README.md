@@ -1,16 +1,127 @@
-# React + Vite
+# VideoSDK Room Switching & Media Relay Demo
+Live Demo : https://video-sdk-room-switch.vercel.app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Overview
 
-Currently, two official plugins are available:
+This project demonstrates seamless room switching using VideoSDK React SDK and explores the Media Relay (PK Host) feature conceptually as described in the Interactive Live Streaming documentation.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application allows a participant to:
+- Join Room A
+- Switch to Room B
+- Maintain clean lifecycle handling
+- Handle media start/stop correctly
 
-## React Compiler
+## 🚀 Project Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1️⃣ Clone Repository
+git clone <repo-url>
+cd videosdk-room-switch
+2️⃣ Install Dependencies
 
-## Expanding the ESLint configuration
+npm install
+3️⃣ Run Development Server
+npm run dev
+4️⃣ Production Build
+npm run build
+🔁 Room Switching Implementation
+Two rooms are created using VideoSDK Meetings API.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Switching Logic:
+Room A and Room B IDs are generated using VideoSDK REST API.
+
+MeetingProvider dynamically switches meetingId.
+
+Seamless transition is achieved by:
+
+Leaving current meeting
+
+Updating meetingId
+
+Rejoining without page reload
+
+Key Concepts Used:
+MeetingProvider
+
+useMeeting
+
+useParticipant
+
+Proper lifecycle cleanup
+
+Participant rendering via participants map
+
+This ensures:
+
+Camera and mic release properly
+
+No reload required
+
+Clean switching UX
+
+🔄 Media Relay (Conceptual Implementation)
+Media Relay (PK Host) was explored using:
+requestMediaRelay()
+stopMediaRelay()
+Based on VideoSDK Interactive Live Streaming (ILS) documentation.
+
+Intended Flow:
+Host in Room A relays media to Room B
+
+Destination meeting receives relay request
+
+Upon acceptance, media is forwarded cross-room
+
+Implementation Notes:
+Relay handlers were implemented using:
+
+onMediaRelayRequestReceived
+
+onMediaRelayRequestResponse
+
+onMediaRelayStarted
+
+onMediaRelayStopped
+
+⚠️ Limitations & Challenges
+During development, the following challenges were encountered:
+
+Relay functionality requires ILS (v2/rooms) endpoint.
+
+Current React SDK version (0.6.8) triggers internal routerSpan error when relay events are enabled.
+
+This appears to be an SDK-level tracing bug in the bundled package.
+
+Due to this limitation, relay hooks were disabled to maintain application stability.
+
+Despite this, full relay flow architecture was implemented and validated at the code level.
+
+🔍 Normal Switching vs Media Relay
+Feature	Normal Switching	Media Relay
+Room Change	Leave & Join	Stay in source
+Reload Required	No	No
+Cross-room media	No	Yes
+Use Case	Navigation	PK battles / cross-stream
+
+🧠 Learnings
+Understood difference between Meetings API (v1/meetings) and ILS Rooms API (v2/rooms)
+
+Debugged SDK-level issue related to tracing instrumentation
+
+Implemented clean lifecycle handling for RTC sessions
+
+Built scalable switching architecture
+
+🌐 Deployment
+Live Demo: https://video-sdk-room-switch.vercel.app
+
+📦 Tech Stack
+React (Vite)
+
+VideoSDK React SDK
+
+WebRTC
+
+Vercel
+
+👤 Author
+Ashraf Hussain Siddiqui
