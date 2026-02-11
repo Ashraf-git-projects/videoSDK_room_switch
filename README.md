@@ -14,8 +14,11 @@ The application allows a participant to:
 ## 🚀 Project Setup
 
 ### 1️⃣ Clone Repository
-git clone <repo-url>
+
+git clone https://github.com/Ashraf-git-projects/videoSDK_room_switch.git
+
 cd videosdk-room-switch
+
 2️⃣ Install Dependencies
 
 npm install
