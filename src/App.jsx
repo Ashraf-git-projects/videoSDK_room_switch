@@ -12,22 +12,10 @@ function App() {
   const [meetingId, setMeetingId] = useState(null);
   const [isJoined, setIsJoined] = useState(false);
 
-  useEffect(() => {
-  const savedA = localStorage.getItem("roomA");
-  const savedB = localStorage.getItem("roomB");
-
-  if (savedA && savedB) {
-    setRoomA(savedA);
-    setRoomB(savedB);
-  }
-}, []);
 
  const initializeRooms = async () => {
   const idA = await createMeeting(VIDEO_SDK_TOKEN);
   const idB = await createMeeting(VIDEO_SDK_TOKEN);
-
-  localStorage.setItem("roomA", idA);
-  localStorage.setItem("roomB", idB);
 
   setRoomA(idA);
   setRoomB(idB);

@@ -8,5 +8,7 @@ export const createMeeting = async (token) => {
   });
 
   const data = await res.json();
-  return data.roomId;
+  console.log("Create Meeting Response:", data);
+
+  return data.meetingId;  
 };
